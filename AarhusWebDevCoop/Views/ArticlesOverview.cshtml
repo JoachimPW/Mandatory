@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ArticlesOverview>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/css.css" />
+<hr> <hr>
+<div id="main-container">
+    <div id="main" class="wrapper clearfix">
+        <section>
+            <h2>@Model.ArticlesTitle</h2>
+            @Model.ArticlesBodyText             
+            @Umbraco.RenderMacro("articleList")
+        </section>
+    </div> <!-- #main -->
+</div> <!-- #main-container -->

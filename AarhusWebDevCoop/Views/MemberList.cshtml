@@ -1,0 +1,67 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberList>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+
+@{
+	Layout = "Master.cshtml";
+	var memberService = ApplicationContext.Current.Services.MemberService;
+    var members = memberService.GetMembersByGroup("Active");
+}
+
+<br>
+<br>
+<br>
+
+<h1>Active Members</h1>
+<br />
+
+@foreach(var member in members) {
+    var propertyValue = member.GetValue("photophoto");
+    var media = Umbraco.TypedMedia(propertyValue);
+    var url = media == null ? string.Empty : media.Url;
+    
+    
+<div class="container">
+  <div class="row">
+    <div class="span2">
+      <img src="@Umbraco.TypedMember(member.Id).GetCropUrl("photo", "memberphoto")"  alt="" class="img-rounded">
+    </div>
+    <div class="span4">
+      <blockquote>
+        <p>@member.Name</p>
+        <small><cite title="Source Title">
+@member.GetValue("address")
+<br>
+@member.GetValue("zip") 
+@member.GetValue("city")
+<br>  <i class="icon-map-marker"></i></cite></small>
+      </blockquote>
+      <p>
+        <i class="icon-envelope"></i> @member.Email <br>
+        <i class="icon-globe"></i> www.Aarhuswebdev.dk <br>
+        <i class="icon-gift"></i> January 30, 1974
+      </p>
+    </div>
+ 
+   
+  </div>
+</div>
+    
+
+<b>Skills</b> 
+<br />
+{
+if (member.GetValue("skills") != null) {
+string[] skills = member.GetValue("skills").ToString().Split(',');
+
+string skillString = 
+string.Join(", ", from skill in skills
+select umbraco.library.GetPreValueAsString(Convert.ToInt32(skill)));
+<span class="badge badge-info tags">@skillString</span> 
+<hr />
+}
+
+}
+<br><br>
+
+}
+

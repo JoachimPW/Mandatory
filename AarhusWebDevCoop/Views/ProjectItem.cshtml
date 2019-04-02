@@ -1,0 +1,24 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ProjectItem>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+<br> <br> <br>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="card border-0 shadow my-5">
+    <div class="card-body p-5">
+      <h1 class="font-weight-light">@Model.ProjectTitle </h1>
+      <p class="lead">@Model.ProjectDescription</p>
+      <p>@Model.ProjectStatus</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+ 
+ 
+@using System.Web.Mvc.Html
+@using ClientDependency.Core.Mvc
+@using Umbraco.Web
+@using Umbraco.Web.Models
+@using Umbraco.Web.Controllers
+ 
+@if (Members.GetCurrentLoginStatus().IsLoggedIn)
+{
+<br>
+<br>
+<br>
+<br>
+    <h1>Welcome @Members.GetCurrentLoginStatus().Name!</h1>
+    var logoutModel = new PostRedirectModel();
+ 
+    logoutModel.RedirectUrl = "/";
+    using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout"))
+    {
+        <button>Logout</button>
+        @Html.HiddenFor(m => logoutModel.RedirectUrl)
+    }
+}
+else
+{
+    var loginModel = new LoginModel();
+ 
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+ 
+ 
+@* NOTE: This RenderJsHere code should be put on your main template page where the rest of your script tags are placed *@
+@Html.RenderJsHere()
+ 
+using (Html.BeginUmbracoForm<UmbLoginController>("HandleLogin"))
+{
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+		<div class="col-md-4 col-md-offset-4">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title">Please sign in</h3>
+			 	</div>
+			  	<div class="panel-body">
+    <fieldset>
+        <legend>Login</legend>
+ <div class="form-group">
+        @Html.ValidationSummary("loginModel", true)
+ 
+        @Html.LabelFor(m => loginModel.Username )
+        @Html.TextBoxFor(m => loginModel.Username , new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => loginModel.Username)
+        <br />
+ 
+        @Html.LabelFor(m => loginModel.Password)
+        @Html.PasswordFor(m => loginModel.Password , new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => loginModel.Password)
+
+        <br /> 
+ 
+        <button class="btn btn-lg btn-success btn-block">Login</button>
+    </fieldset>
+     </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+    
+}
+ 
+}
+
